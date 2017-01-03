@@ -1,0 +1,27 @@
+{
+    "name": "mangelsnc/cognitive-face-api-php",
+    "description": "A PHP API for Microsoft Cognitive Face API",
+    "type": "library",
+    "require": {
+      "guzzlehttp/guzzle": "^6.2",
+      "guzzlehttp/psr7": "^1.3.1",
+        "symfony/http-foundation": "^3.2"
+    },
+    "require-dev": {
+      "phpunit/phpunit": "^5.7"
+    },
+    "license": "MIT",
+    "authors": [
+      {
+        "name": "Miguel Ángel Sánchez Chordi",
+        "email": "mangel.snc@gmail.com"
+      }
+    ],
+    "autoload": {
+      "psr-4": {
+        "CognitiveFaceApi\\": "src\\CognitiveFaceApi",
+        "CognitiveFaceApi\\Component\\": "src\\CognitiveFaceApi\\Component"
+      }
+    },
+    "minimum-stability": "dev"
+}
