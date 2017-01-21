@@ -2,6 +2,9 @@
 
 namespace CognitiveFaceApi\Resource;
 
+use CognitiveFaceApi\Factory\FaceAttributesFactory;
+use CognitiveFaceApi\Factory\FaceRectangleFactory;
+
 class Face
 {
     /**
@@ -10,14 +13,27 @@ class Face
     private $id;
 
     /**
-     * @var string
+     * @var FaceRectangle
      */
-    private $userData;
+    private $faceRectangle;
 
-    public function __construct($id, $userData = null)
+    /**
+     * @var FaceAttributes
+     */
+    private $faceAttributes;
+
+
+    public function __construct($id, $faceRectangle = null, $faceAttributes = null)
     {
         $this->id = $id;
-        $this->userData = $userData;
+
+        if (null != $faceRectangle) {
+            $this->faceRectangle = FaceRectangleFactory::createFromArray($faceRectangle);
+        }
+
+        if (null != $faceAttributes) {
+            $this->faceAttributes = FaceAttributesFactory::createFromArray($faceAttributes);
+        }
     }
 
     /**
@@ -29,18 +45,34 @@ class Face
     }
 
     /**
-     * @return null
+     * @return FaceRectangle
      */
-    public function getUserData()
+    public function getFaceRectangle()
     {
-        return $this->userData;
+        return $this->faceRectangle;
+    }
+
+    /**
+     * @return FaceAttributes
+     */
+    public function getFaceAttributes()
+    {
+        return $this->faceAttributes;
     }
 
     public function toArray()
     {
-        return [
-            'id' => $this->getId(),
-            'userData' => $this->getUserData(),
-        ];
+        $array = [];
+        $array['id'] = $this->getId();
+
+        if (null != $this->getFaceRectangle()) {
+            $array['faceRectangle'] = $this->getFaceRectangle()->toArray();
+        }
+
+        if (null != $this->getFaceAttributes()) {
+            $array['faceRectangle'] = $this->getFaceAttributes()->toArray();
+        }
+
+        return $array;
     }
 }

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "132a9e5d89aa2b6e44b22c3251c84440",
-    "content-hash": "db331aba0d99995ddd2eeb5eae4d3c1a",
+    "hash": "b12c196240203f72c23bd757cd59a25a",
+    "content-hash": "53ceec5f48d328ec027c6945ddc593c6",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -287,6 +287,60 @@
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
             "time": "2016-12-27 10:45:09"
+        },
+        {
+            "name": "symfony/options-resolver",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/options-resolver.git",
+                "reference": "3833c7ac7e3862ee1ba393c8d0be533bd90586d4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/3833c7ac7e3862ee1ba393c8d0be533bd90586d4",
+                "reference": "3833c7ac7e3862ee1ba393c8d0be533bd90586d4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\OptionsResolver\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony OptionsResolver Component",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "config",
+                "configuration",
+                "options"
+            ],
+            "time": "2017-01-02 20:33:09"
         },
         {
             "name": "symfony/polyfill-mbstring",
