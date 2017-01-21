@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Client
 {
-    const BASE_URL = 'https://api.projectoxford.ai/face/v1.0/';
+    const BASE_URL = 'https://westus.api.cognitive.microsoft.com/face/v1.0/';
 
     /**
      * @var string
