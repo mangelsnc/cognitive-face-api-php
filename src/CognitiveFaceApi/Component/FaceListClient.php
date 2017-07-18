@@ -35,11 +35,13 @@ class FaceListClient
         $lists = [];
 
         foreach ($data as $listData) {
+            $persistedFaces = array_key_exists('persistedFaces', $listData) ? $listData['persistedFaces'] : [];
+
             $list = new FaceList(
                 $listData['faceListId'],
                 $listData['name'],
                 $listData['userData'],
-                $listData['persistedFaces']
+                $persistedFaces
             );
 
             $lists[] = $list;
