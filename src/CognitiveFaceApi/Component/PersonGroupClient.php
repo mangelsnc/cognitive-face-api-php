@@ -30,7 +30,7 @@ class PersonGroupClient
      * @return array
      * @throws \Exception
      */
-    public function listAll()
+    public function listAll(): array
     {
         $data = $this->client->doRequest(self::RESOURCE_NAME, 'GET');
         $groups = [];
@@ -56,7 +56,7 @@ class PersonGroupClient
      * @return PersonGroup
      * @throws \Exception
      */
-    public function get($personGroupId)
+    public function get($personGroupId): PersonGroup
     {
         $uri = self::RESOURCE_NAME . '/' . $personGroupId;
 
@@ -104,7 +104,7 @@ class PersonGroupClient
      * @return PersonGroup
      * @throws \Exception
      */
-    public function update(PersonGroup $group, $name, $userData)
+    public function update(PersonGroup $group, $name, $userData): PersonGroup
     {
         $uri = self::RESOURCE_NAME . '/' . $group->getId();
 
@@ -127,7 +127,7 @@ class PersonGroupClient
      * @return boolean
      * @throws \Exception
      */
-    public function delete(PersonGroup $group)
+    public function delete(PersonGroup $group): bool
     {
         $uri = self::RESOURCE_NAME . '/' . $group->getId();
 
@@ -143,7 +143,7 @@ class PersonGroupClient
      * @return boolean
      * @throws \Exception
      */
-    public function train(PersonGroup $group)
+    public function train(PersonGroup $group): bool
     {
         $uri = self::RESOURCE_NAME . '/' . $group->getId() . '/train';
 
@@ -159,7 +159,7 @@ class PersonGroupClient
      * @return array
      * @throws \Exception
      */
-    public function trainingStatus(PersonGroup $group)
+    public function trainingStatus(PersonGroup $group): array
     {
         $uri = self::RESOURCE_NAME . '/' . $group->getId() . '/training';
 
@@ -172,10 +172,10 @@ class PersonGroupClient
      * List all persons
      *
      * @param PersonGroup $group
-     * @return mixed
+     * @return array
      * @throws \Exception
      */
-    public function getPersons(PersonGroup $group)
+    public function getPersons(PersonGroup $group): array
     {
         $uri = sprintf(self::RESOURCE_NAME . '/%s/persons', $group->getId());
         $data = $this->client->doRequest($uri, 'GET');

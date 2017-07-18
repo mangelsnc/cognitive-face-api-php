@@ -29,7 +29,7 @@ class FaceListClient
      * @return array
      * @throws \Exception
      */
-    public function listAll()
+    public function listAll(): array
     {
         $data = $this->client->doRequest(self::RESOURCE_NAME, 'GET');
         $lists = [];
@@ -58,7 +58,7 @@ class FaceListClient
      * @return FaceList
      * @throws \Exception
      */
-    public function get($listId)
+    public function get($listId): FaceList
     {
         $uri = self::RESOURCE_NAME . '/' . $listId;
         $listData = $this->client->doRequest($uri, 'GET');
@@ -79,7 +79,7 @@ class FaceListClient
      * @param string|null $userData
      * @return FaceList
      */
-    public function create($listId, $name = null, $userData = null)
+    public function create($listId, $name = null, $userData = null): FaceList
     {
         $name = null === $name ? $listId : $name;
         $uri = self::RESOURCE_NAME . '/' . $listId;
@@ -146,7 +146,7 @@ class FaceListClient
      * @return FaceList
      * @throws \Exception
      */
-    public function addFace(FaceList $list, $url)
+    public function addFace(FaceList $list, $url): FaceList
     {
         $uri = self::RESOURCE_NAME . '/' . $list->getId() . '/persistedFaces';
 
@@ -167,7 +167,7 @@ class FaceListClient
      * @return FaceList
      * @throws \Exception
      */
-    public function deleteFace(FaceList $list, $faceId)
+    public function deleteFace(FaceList $list, $faceId): FaceList
     {
         $uri = self::RESOURCE_NAME . '/' . $list->getId() . '/persistedFaces/' . $faceId;
 

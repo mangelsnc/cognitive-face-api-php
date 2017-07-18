@@ -34,7 +34,7 @@ class PersonClient
      * @return Person
      * @throws \Exception
      */
-    public function get(PersonGroup $group, $personId)
+    public function get(PersonGroup $group, $personId): Person
     {
         $uri = sprintf(self::RESOURCE_NAME, $group->getId());
         $uri .= '/' . $personId;
@@ -59,7 +59,7 @@ class PersonClient
      * @return Person
      * @throws \Exception
      */
-    public function create(PersonGroup $group, $name, $userData = null)
+    public function create(PersonGroup $group, $name, $userData = null): Person
     {
         $uri = sprintf(self::RESOURCE_NAME, $group->getId());
 
@@ -86,7 +86,7 @@ class PersonClient
      * @return Person
      * @throws \Exception
      */
-    public function update(Person $person, $name, $userData = null)
+    public function update(Person $person, $name, $userData = null): Person
     {
         $uri = sprintf(self::RESOURCE_NAME, $person->getGroup());
         $uri .= '/' . $person->getId();
@@ -127,7 +127,7 @@ class PersonClient
      * @return Face
      * @throws \Exception
      */
-    public function getFace(Person $person, $faceId)
+    public function getFace(Person $person, $faceId): Face
     {
         $uri = sprintf(self::RESOURCE_NAME, $person->getGroup());
         $uri .= '/' . $person->getId() . '/persistedFaces/' . $faceId;
@@ -144,7 +144,7 @@ class PersonClient
      * @return array
      * @throws \Exception
      */
-    public function getAllFaces(Person $person)
+    public function getAllFaces(Person $person): array
     {
         $faces = [];
 
@@ -164,7 +164,7 @@ class PersonClient
      * @param $url
      * @return Person
      */
-    public function addFace(Person $person, $url)
+    public function addFace(Person $person, $url): Person
     {
         $uri = sprintf(self::RESOURCE_NAME, $person->getGroup());
         $uri .= '/' . $person->getId() . '/persistedFaces';
@@ -184,7 +184,7 @@ class PersonClient
      * @param $userData
      * @return Person
      */
-    public function updateFace(Person $person, $faceId, $userData)
+    public function updateFace(Person $person, $faceId, $userData): Person
     {
         $uri = sprintf(self::RESOURCE_NAME, $person->getGroup());
         $uri .= '/' . $person->getId() . '/persistedFaces/' . $faceId;
@@ -201,7 +201,7 @@ class PersonClient
      * @param $faceId
      * @return Person
      */
-    public function deleteFace(Person $person, $faceId)
+    public function deleteFace(Person $person, $faceId): Person
     {
         $uri = sprintf(self::RESOURCE_NAME, $person->getGroup());
         $uri .= '/' . $person->getId() . '/persistedFaces/' . $faceId;

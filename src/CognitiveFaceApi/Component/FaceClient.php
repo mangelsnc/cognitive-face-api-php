@@ -23,8 +23,10 @@ class FaceClient
 {
     const MATCH_PERSON = 'matchPerson';
     const MATCH_FACE = 'matchFace';
+    const DEFAULT_SIMILAR_CANDIDATES = 20;
     const MAX_SIMILAR_CANDIDATES = 1000;
     const MIN_SIMILAR_CANDIDATES = 1;
+    const DEFAULT_IDENTIFY_CANDIDATES = 1;
     const MAX_IDENTIFY_CANDIDATES = 5;
     const MIN_IDENTIFY_CANDIDATES = 1;
     const MIN_CONFIDENCE_THRESHOLD = 0;
@@ -51,8 +53,12 @@ class FaceClient
      * @throws InvalidFaceAttributesException
      * @throws InvalidPhotoUrlException
      */
-    public function detect($photoUrl, $returnFaceId = true, $returnFaceLandmarks = false, $returnFaceAttributes = null)
-    {
+    public function detect(
+        $photoUrl,
+        $returnFaceId = true,
+        $returnFaceLandmarks = false,
+        $returnFaceAttributes = null
+    ): Face {
         $uri = 'detect';
         $params = [];
 
@@ -90,9 +96,9 @@ class FaceClient
 
     /**
      * @param array $faceAttributes
-     * @return boolean
+     * @return bool
      */
-    private function validateFaceAttributes($faceAttributes)
+    private function validateFaceAttributes($faceAttributes): bool
     {
         foreach ($faceAttributes as $attribute) {
             if (!in_array($attribute, FaceAttributes::getAllowedFaceAttributes())) {
@@ -112,21 +118,16 @@ class FaceClient
      * @throws InvalidMatchModeException
      * @throws InvalidNumberOfCandidatesException
      */
-    public function findSimilar(Face $face, FaceList $faceList, $candidates = 20, $matchMode = self::MATCH_PERSON)
-    {
+    public function findSimilar(
+        Face $face,
+        FaceList $faceList,
+        $candidates = self::DEFAULT_SIMILAR_CANDIDATES,
+        $matchMode = self::MATCH_PERSON
+    ): array {
         $uri = 'findsimilars';
 
-        if (self::MAX_SIMILAR_CANDIDATES < $candidates) {
-            throw new InvalidNumberOfCandidatesException(self::MIN_SIMILAR_CANDIDATES, self::MAX_SIMILAR_CANDIDATES);
-        }
-
-        if (self::MIN_SIMILAR_CANDIDATES > $candidates) {
-            throw new InvalidNumberOfCandidatesException(self::MIN_SIMILAR_CANDIDATES, self::MAX_SIMILAR_CANDIDATES);
-        }
-
-        if (!$this->isValidMatchMode($matchMode)) {
-            throw new InvalidMatchModeException();
-        }
+        $this->checkSimilarCandidatesNumber($candidates);
+        $this->checkValidMatchMode($matchMode);
 
         $similarData = $this->client->doRequest($uri, 'POST', [
             'faceId' => $face->getId(),
@@ -146,10 +147,36 @@ class FaceClient
     }
 
     /**
+     * @param $candidates
+     * @throws InvalidNumberOfCandidatesException
+     */
+    private function checkSimilarCandidatesNumber($candidates)
+    {
+        if (self::MAX_SIMILAR_CANDIDATES < $candidates) {
+            throw new InvalidNumberOfCandidatesException(self::MIN_SIMILAR_CANDIDATES, self::MAX_SIMILAR_CANDIDATES);
+        }
+
+        if (self::MIN_SIMILAR_CANDIDATES > $candidates) {
+            throw new InvalidNumberOfCandidatesException(self::MIN_SIMILAR_CANDIDATES, self::MAX_SIMILAR_CANDIDATES);
+        }
+    }
+
+    /**
+     * @param $matchMode
+     * @throws InvalidMatchModeException
+     */
+    private function checkValidMatchMode($matchMode)
+    {
+        if (!$this->isValidMatchMode($matchMode)) {
+            throw new InvalidMatchModeException();
+        }
+    }
+
+    /**
      * @param $matchMode
      * @return bool
      */
-    public function isValidMatchMode($matchMode)
+    private function isValidMatchMode($matchMode)
     {
         return in_array($matchMode, self::getMatchModes());
     }
@@ -174,21 +201,16 @@ class FaceClient
      * @throws InvalidConfidenceThresholdException
      * @throws InvalidNumberOfCandidatesException
      */
-    public function identify(Face $face, PersonGroup $personGroup, $candidates = 1, $threshold = null)
-    {
+    public function identify(
+        Face $face,
+        PersonGroup $personGroup,
+        $candidates = self::DEFAULT_IDENTIFY_CANDIDATES,
+        $threshold = null
+    ): array {
         $uri = 'identify';
 
-        if (self::MAX_IDENTIFY_CANDIDATES < $candidates) {
-            throw new InvalidNumberOfCandidatesException(self::MIN_IDENTIFY_CANDIDATES, self::MAX_IDENTIFY_CANDIDATES);
-        }
-
-        if (self::MIN_IDENTIFY_CANDIDATES > $candidates) {
-            throw new InvalidNumberOfCandidatesException(self::MIN_IDENTIFY_CANDIDATES, self::MAX_IDENTIFY_CANDIDATES);
-        }
-
-        if (self::MIN_CONFIDENCE_THRESHOLD > $threshold || self::MAX_CONFIDENCE_THRESHOLD < $threshold) {
-            throw new InvalidConfidenceThresholdException(self::MIN_CONFIDENCE_THRESHOLD, self::MAX_CONFIDENCE_THRESHOLD);
-        }
+        $this->checkIdentifyCandidatesNumber($candidates);
+        $this->checkIdentifyConfidenceThreshold($threshold);
 
         $body = [
             'faceIds' => [$face->getId()],
@@ -213,11 +235,38 @@ class FaceClient
     }
 
     /**
+     * @param $candidates
+     * @throws InvalidNumberOfCandidatesException
+     */
+    private function checkIdentifyCandidatesNumber($candidates)
+    {
+        if (self::MAX_IDENTIFY_CANDIDATES < $candidates) {
+            throw new InvalidNumberOfCandidatesException(self::MIN_IDENTIFY_CANDIDATES, self::MAX_IDENTIFY_CANDIDATES);
+        }
+
+        if (self::MIN_IDENTIFY_CANDIDATES > $candidates) {
+            throw new InvalidNumberOfCandidatesException(self::MIN_IDENTIFY_CANDIDATES, self::MAX_IDENTIFY_CANDIDATES);
+        }
+    }
+
+    /**
+     * @param $threshold
+     * @throws InvalidConfidenceThresholdException
+     */
+    private function checkIdentifyConfidenceThreshold($threshold)
+    {
+        if (self::MIN_CONFIDENCE_THRESHOLD > $threshold || self::MAX_CONFIDENCE_THRESHOLD < $threshold) {
+            throw new InvalidConfidenceThresholdException(self::MIN_CONFIDENCE_THRESHOLD,
+                self::MAX_CONFIDENCE_THRESHOLD);
+        }
+    }
+
+    /**
      * @param Face $face
      * @param Face $secondFace
      * @return Verification
      */
-    public function verifyFaceToFace(Face $face, Face $secondFace)
+    public function verifyFaceToFace(Face $face, Face $secondFace): Verification
     {
         $uri = 'verify';
 
@@ -240,7 +289,7 @@ class FaceClient
      * @throws InvalidConfidenceThresholdException
      * @throws InvalidNumberOfCandidatesException
      */
-    public function verifyFaceToPerson(Face $face, Person $person)
+    public function verifyFaceToPerson(Face $face, Person $person): Verification
     {
         $uri = 'verify';
 
