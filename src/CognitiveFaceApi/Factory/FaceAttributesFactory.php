@@ -22,10 +22,10 @@ class FaceAttributesFactory
         }
 
         $faceAttributes = new FaceAttributes(
+            $faceAttributesData['age'],
             $faceAttributesData['smile'],
             $faceAttributesData['gender'],
             HeadPoseFactory::createFromArray($faceAttributesData['headPose']),
-            $faceAttributesData['smile'],
             FacialHairFactory::createFromArray($faceAttributesData['facialHair']),
             $faceAttributesData['glasses']
         );
