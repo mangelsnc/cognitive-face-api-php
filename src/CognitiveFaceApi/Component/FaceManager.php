@@ -19,7 +19,7 @@ use CognitiveFaceApi\Resource\PersonGroup;
 use CognitiveFaceApi\Resource\SimilarFace;
 use CognitiveFaceApi\Resource\Verification;
 
-class FaceClient
+class FaceManager
 {
     const MATCH_PERSON = 'matchPerson';
     const MATCH_FACE = 'matchFace';

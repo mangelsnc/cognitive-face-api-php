@@ -5,7 +5,7 @@ namespace CognitiveFaceApi\Component;
 use CognitiveFaceApi\Client;
 use CognitiveFaceApi\Resource\FaceList;
 
-class FaceListClient
+class FaceListManager
 {
     const RESOURCE_NAME = 'facelists';
 

@@ -2,7 +2,7 @@
 
 namespace CognitiveFaceApi\Exception;
 
-use CognitiveFaceApi\Component\FaceClient;
+use CognitiveFaceApi\Component\FaceManager;
 
 class InvalidMatchModeException extends \Exception
 {
@@ -15,7 +15,7 @@ class InvalidMatchModeException extends \Exception
     {
         $message = sprintf(
             'Invalid match mode. Valid Modes: %s',
-            implode(', ', FaceClient::getMatchModes())
+            implode(', ', FaceManager::getMatchModes())
         );
 
         parent::__construct($message, self::CODE);

@@ -2,10 +2,10 @@
 
 namespace CognitiveFaceApi;
 
-use CognitiveFaceApi\Component\FaceClient;
-use CognitiveFaceApi\Component\FaceListClient;
-use CognitiveFaceApi\Component\PersonClient;
-use CognitiveFaceApi\Component\PersonGroupClient;
+use CognitiveFaceApi\Component\FaceManager;
+use CognitiveFaceApi\Component\FaceListManager;
+use CognitiveFaceApi\Component\PersonManager;
+use CognitiveFaceApi\Component\PersonGroupManager;
 
 class CognitiveFaceApi
 {
@@ -15,31 +15,31 @@ class CognitiveFaceApi
     private $client;
 
     /**
-     * @var FaceListClient
+     * @var FaceListManager
      */
     public $faceList;
 
     /**
-     * @var PersonGroupClient
+     * @var PersonGroupManager
      */
     public $personGroup;
 
     /**
-     * @var PersonClient
+     * @var PersonManager
      */
     public $person;
 
     /**
-     * @var FaceClient
+     * @var FaceManager
      */
     public $face;
 
     public function __construct($subscriptionKey)
     {
         $this->client = new Client($subscriptionKey);
-        $this->faceList = new FaceListClient($this->client);
-        $this->personGroup = new PersonGroupClient($this->client);
-        $this->person = new PersonClient($this->client);
-        $this->face = new FaceClient($this->client);
+        $this->faceList = new FaceListManager($this->client);
+        $this->personGroup = new PersonGroupManager($this->client);
+        $this->person = new PersonManager($this->client);
+        $this->face = new FaceManager($this->client);
     }
 }

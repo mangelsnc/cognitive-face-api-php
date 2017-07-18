@@ -7,7 +7,7 @@ use CognitiveFaceApi\Resource\Face;
 use CognitiveFaceApi\Resource\Person;
 use CognitiveFaceApi\Resource\PersonGroup;
 
-class PersonClient
+class PersonManager
 {
     const RESOURCE_NAME = 'persongroups/%s/persons';
 
